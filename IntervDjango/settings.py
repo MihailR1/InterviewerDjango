@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+from IntervDjango.config import settings
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-t05@m7b88f$3(ao1_(s22*lcbzxv#&$f#@^xvi)zwvebu+smn1"
+SECRET_KEY = settings.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = settings.DEBUG
 
 ALLOWED_HOSTS = []
 
@@ -37,6 +39,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "Accounts.apps.AccountsConfig",
+    "Articles.apps.ArticlesConfig",
+    "Attempts.apps.AttemptsConfig",
+    "Comments.apps.CommentsConfig",
+    "Companies.apps.CompaniesConfig",
+    "Questions.apps.QuestionsConfig",
 ]
 
 MIDDLEWARE = [
@@ -76,8 +84,12 @@ WSGI_APPLICATION = "IntervDjango.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": settings.POSTGRES_DB,
+        "USER": settings.POSTGRES_USER,
+        "PASSWORD": settings.POSTGRES_PASSWORD,
+        "HOST": settings.POSTGRES_HOST,
+        "PORT": settings.POSTGRES_PORT,
     }
 }
 
