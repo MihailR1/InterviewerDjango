@@ -8,7 +8,7 @@ class CommonDataAbstractModel(models.Model):
     class Meta:
         abstract = True
 
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Created')
     updated = models.DateTimeField(auto_now=True, verbose_name='Updated')
 
     def __str__(self):

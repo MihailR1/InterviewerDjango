@@ -2,33 +2,19 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.indexes import HashIndex
 from django.db import models
 
-from Accounts.manager import CustomUserManager
 from Utils.models import CommonDataAbstractModel
 
 
 class User(AbstractUser):
-    username = None
-    email = models.EmailField('email address', unique=True)
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
-
-    objects = CustomUserManager()
+    """Модель пользователя"""
 
     class Meta:
-        permissions = (
-            ('can_change_user_permissions', "Can change user permissions"),
-        )
         indexes = (HashIndex(fields=('email',)),)
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
     def __str__(self):
         return f'{self.email}'
-
-    @classmethod
-    def get_email_field_name(cls):
-        return 'email'
 
 
 class Profile(CommonDataAbstractModel):

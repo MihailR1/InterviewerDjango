@@ -16,3 +16,7 @@ sorts:
 	isort app -rc
 check:
 	make -j3 style types tests
+shell:
+	python manage.py shell_plus --print-sql
+migrate:
+	python manage.py makemigrations
