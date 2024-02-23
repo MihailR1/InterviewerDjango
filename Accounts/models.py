@@ -1,3 +1,66 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-# Create your models here.
+from Accounts.manager import CustomUserManager
+from Utils.models import CommonDataAbstractModel
+
+
+class User(AbstractUser):
+    username = None
+    email = models.EmailField('email address', unique=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
+
+    class Meta:
+        permissions = (
+            ('can_change_user_permissions', "Can change user permissions"),
+        )
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
+    def __str__(self):
+        return f'{self.email}'
+
+    @classmethod
+    def get_email_field_name(cls):
+        return 'email'
+
+
+class Profile(CommonDataAbstractModel):
+    """Модель с настройками аккаунта пользователя"""
+
+    user_id = models.OneToOneField('User', on_delete=models.CASCADE)
+    remind_in = models.IntegerField(default=2, help_text='Напоминать о тренировках раз в N дня')
+    remind_easy = models.IntegerField(default=6)
+    remind_difficult = models.IntegerField(default=1)
+    remind_moderate = models.IntegerField(default=3)
+
+    class Meta:
+        verbose_name = 'Настройки пользователя'
+        verbose_name_plural = 'Настройки пользователя'
+
+
+class Favorite(CommonDataAbstractModel):
+    """Модель для добавления избранных вопросов"""
+
+    user_id = models.ForeignKey('User', on_delete=models.CASCADE)
+    question_id = models.ForeignKey('Questions.Question', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Избранное'
+        verbose_name_plural = 'Избранные'
+
+
+class Review(CommonDataAbstractModel):
+    """Модель отзыва пользователем о нашем сервисе"""
+
+    user_id = models.OneToOneField('User', on_delete=models.CASCADE)
+    text = models.TextField()
+    number_of_interview_sessions = models.IntegerField()
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
