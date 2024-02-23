@@ -3,7 +3,7 @@ from django.db import models
 
 class CommonDataAbstractModel(models.Model):
     """Абстрактная модель с частыми полями,
-    которые нужно при создании моделей"""
+    которые нужны при создании моделей"""
 
     class Meta:
         abstract = True

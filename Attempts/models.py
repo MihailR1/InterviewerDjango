@@ -8,7 +8,7 @@ class Attempt(CommonDataAbstractModel):
     """Модель сессии из вопросов"""
 
     user_id = models.ForeignKey('Accounts.User', on_delete=models.CASCADE)
-    question_id = models.ForeignKey('Questions.Question', on_delete=models.SET_NULL)
+    question_id = models.ForeignKey('Questions.Question', on_delete=models.SET_NULL, null=True)
     start_date = models.DateTimeField(auto_now_add=True, verbose_name='Время начала')
     end_date = models.DateTimeField(auto_now=True, verbose_name='Время завершения')
     answer = models.OneToOneField('Answer', on_delete=models.CASCADE)

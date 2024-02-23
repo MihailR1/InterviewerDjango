@@ -1,3 +1,4 @@
+from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -20,12 +21,12 @@ class Question(CommonDataAbstractModel):
         MIDDLE = 'MIDDLE', _('Middle')
         SENIOR = 'SENIOR', _('Senior')
 
-    user_id = models.ForeignKey('Accounts.User', on_delete=models.SET_NULL)
+    user_id = models.ForeignKey('Accounts.User', on_delete=models.SET_DEFAULT, default=1)
     categories = models.ManyToManyField('Category')
     companies = models.ManyToManyField('Companies.Company')
     article = models.OneToOneField('Articles.Article', on_delete=models.CASCADE)
     comments = models.ForeignKey('Comments.Comment', on_delete=models.CASCADE)
-    title = models.CharField(max_length=255, unique=True)
+    title = models.CharField(max_length=255, unique=True, db_index=True)
     text = models.TextField(unique=True)
     answer = models.TextField()
     level = models.CharField(choices=LevelChoices, default=LevelChoices.JUNIOR)
@@ -35,15 +36,16 @@ class Question(CommonDataAbstractModel):
     class Meta:
         verbose_name = 'Вопрос'
         verbose_name_plural = 'Вопросы'
+        indexes = (GinIndex(fields=('text',)),)
 
 
 class QuestionStat(CommonDataAbstractModel):
     """Статистика по вопросу"""
 
     question_id = models.OneToOneField('Question', on_delete=models.CASCADE)
-    views = models.IntegerField()
-    got_at_interview = models.IntegerField()
-    answers = models.ForeignKey('Attempts.Answer', on_delete=models.SET_NULL)
+    views = models.PositiveSmallIntegerField()
+    got_at_interview = models.PositiveSmallIntegerField()
+    answers = models.ForeignKey('Attempts.Answer', on_delete=models.SET_NULL, null=True)
 
     class Meta:
         verbose_name = 'Статистика по вопросу'
@@ -62,4 +64,3 @@ class Category(CommonDataAbstractModel):
     class Meta:
         verbose_name = 'Категории'
         verbose_name_plural = 'Категории'
-

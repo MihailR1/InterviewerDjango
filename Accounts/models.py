@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.contrib.postgres.indexes import HashIndex
 from django.db import models
 
 from Accounts.manager import CustomUserManager
@@ -18,6 +19,7 @@ class User(AbstractUser):
         permissions = (
             ('can_change_user_permissions', "Can change user permissions"),
         )
+        indexes = (HashIndex(fields=('email',)),)
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
@@ -33,10 +35,10 @@ class Profile(CommonDataAbstractModel):
     """Модель с настройками аккаунта пользователя"""
 
     user_id = models.OneToOneField('User', on_delete=models.CASCADE)
-    remind_in = models.IntegerField(default=2, help_text='Напоминать о тренировках раз в N дня')
-    remind_easy = models.IntegerField(default=6)
-    remind_difficult = models.IntegerField(default=1)
-    remind_moderate = models.IntegerField(default=3)
+    remind_in = models.PositiveSmallIntegerField(default=2, help_text='Напоминать о тренировках раз в N дня')
+    remind_easy = models.PositiveSmallIntegerField(default=6)
+    remind_difficult = models.PositiveSmallIntegerField(default=1)
+    remind_moderate = models.PositiveSmallIntegerField(default=3)
 
     class Meta:
         verbose_name = 'Настройки пользователя'
