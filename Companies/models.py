@@ -7,8 +7,8 @@ from Utils.slug import AutoSlugField
 class Company(CommonDataAbstractModel):
     """Модель компании"""
 
-    name = models.CharField(max_length=255, unique=True, db_index=True)
-    slug = AutoSlugField(populate_from='name', unique=True)
+    name = models.CharField(max_length=255, unique=True, db_index=True, verbose_name='Компания')
+    slug = AutoSlugField(populate_from='name', unique=True, verbose_name='Ссылка')
 
     def questions(self):
         return self.question_set.all()

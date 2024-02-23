@@ -9,7 +9,7 @@ export PYTHONPATH := $(shell pwd):$(PYTHONPATH)
 style:
 	flake8 .
 types:
-	mypy app --explicit-package-bases
+	mypy --explicit-package-bases
 tests:
 	pytest --lf --v
 sorts:

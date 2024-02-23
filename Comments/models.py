@@ -7,8 +7,9 @@ from Utils.models import CommonDataAbstractModel
 class Comment(CommonDataAbstractModel):
     """Модель комментария к вопросу"""
 
-    user_id = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE)
-    text = models.TextField()
+    user_id = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                   verbose_name='Пользователь')
+    text = models.TextField(verbose_name='Текст комментария')
 
     class Meta:
         verbose_name = 'Комментарий'

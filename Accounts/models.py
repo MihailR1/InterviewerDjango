@@ -2,11 +2,14 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.indexes import HashIndex
 from django.db import models
 
+from IntervDjango.settings import AUTH_USER_MODEL
 from Utils.models import CommonDataAbstractModel
 
 
 class User(AbstractUser):
     """Модель пользователя"""
+
+    email = models.EmailField('email address', unique=True)
 
     class Meta:
         indexes = (HashIndex(fields=('email',)),)
@@ -20,11 +23,13 @@ class User(AbstractUser):
 class Profile(CommonDataAbstractModel):
     """Модель с настройками аккаунта пользователя"""
 
-    user_id = models.OneToOneField('User', on_delete=models.CASCADE)
-    remind_in = models.PositiveSmallIntegerField(default=2, help_text='Напоминать о тренировках раз в N дня')
-    remind_easy = models.PositiveSmallIntegerField(default=6)
-    remind_difficult = models.PositiveSmallIntegerField(default=1)
-    remind_moderate = models.PositiveSmallIntegerField(default=3)
+    user_id = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                   verbose_name='Пользователь')
+    remind_in = models.PositiveSmallIntegerField(default=2,
+                                                 verbose_name='Напоминать о тренировках')
+    remind_easy = models.PositiveSmallIntegerField(default=6, verbose_name='Верно')
+    remind_difficult = models.PositiveSmallIntegerField(default=1, verbose_name='Не верно')
+    remind_moderate = models.PositiveSmallIntegerField(default=3, verbose_name='Не совсем верно')
 
     class Meta:
         verbose_name = 'Настройки пользователя'
@@ -34,8 +39,9 @@ class Profile(CommonDataAbstractModel):
 class Favorite(CommonDataAbstractModel):
     """Модель для добавления избранных вопросов"""
 
-    user_id = models.ForeignKey('User', on_delete=models.CASCADE)
-    question_id = models.ForeignKey('Questions.Question', on_delete=models.CASCADE)
+    user_id = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                verbose_name='Пользователь')
+    question_id = models.ForeignKey('Questions.Question', on_delete=models.CASCADE, verbose_name='Вопросы')
 
     class Meta:
         verbose_name = 'Избранное'
@@ -45,9 +51,10 @@ class Favorite(CommonDataAbstractModel):
 class Review(CommonDataAbstractModel):
     """Модель отзыва пользователем о нашем сервисе"""
 
-    user_id = models.OneToOneField('User', on_delete=models.CASCADE)
-    text = models.TextField()
-    number_of_interview_sessions = models.IntegerField()
+    user_id = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                   verbose_name='Пользователь')
+    text = models.TextField(verbose_name='Текст отзыва')
+    number_of_interview_sessions = models.PositiveSmallIntegerField(verbose_name='Кол-во сессий')
 
     class Meta:
         verbose_name = 'Отзыв'
