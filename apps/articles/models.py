@@ -9,7 +9,7 @@ from core.slug import AutoSlugField
 class Article(CommonDataAbstractModel):
     """Статья с полным разбором вопроса"""
 
-    user_id = models.ForeignKey(
+    user = models.ForeignKey(
         AUTH_USER_MODEL, models.SET_DEFAULT, default=1, verbose_name=_("Пользователь")
     )
     text = models.TextField(verbose_name=_("Полный текст ответа"))

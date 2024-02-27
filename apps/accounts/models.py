@@ -24,7 +24,7 @@ class User(AbstractUser):
 class Profile(CommonDataAbstractModel):
     """Модель с настройками аккаунта пользователя"""
 
-    user_id = models.OneToOneField(
+    user = models.OneToOneField(
         AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Пользователь")
     )
     remind_in = models.PositiveSmallIntegerField(
@@ -42,13 +42,11 @@ class Profile(CommonDataAbstractModel):
 class Favorite(CommonDataAbstractModel):
     """Модель для добавления избранных вопросов"""
 
-    user_id = models.ForeignKey(
+    user = models.ForeignKey(
         AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Пользователь")
     )
-    question_id = models.ForeignKey(
-        "questions.Question",
-        on_delete=models.CASCADE,
-        verbose_name=_("Вопросы"),
+    question = models.ForeignKey(
+        "questions.Question", on_delete=models.CASCADE, verbose_name=_("Вопросы")
     )
 
     class Meta:
@@ -59,7 +57,7 @@ class Favorite(CommonDataAbstractModel):
 class Review(CommonDataAbstractModel):
     """Модель отзыва пользователем о нашем сервисе"""
 
-    user_id = models.OneToOneField(
+    user = models.OneToOneField(
         AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Пользователь")
     )
     text = models.TextField(verbose_name=_("Текст отзыва"))

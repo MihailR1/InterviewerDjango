@@ -8,7 +8,7 @@ from core.models import CommonDataAbstractModel
 class Comment(CommonDataAbstractModel):
     """Модель комментария к вопросу"""
 
-    user_id = models.OneToOneField(
+    user = models.OneToOneField(
         AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Пользователь")
     )
     text = models.TextField(verbose_name=_("Текст комментария"))

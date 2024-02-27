@@ -12,7 +12,7 @@ types:
 	mypy .
 tests:
 	pytest --lf --v
-sorts:
+isort:
 	isort apps config
 black:
 	black apps config

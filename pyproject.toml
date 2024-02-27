@@ -47,7 +47,7 @@ default_section = "THIRDPARTY"
 known_first_party = "core,accounts,articles,attempts,comments,companies,questions"
 known_django = "django"
 sections = "FUTURE,STDLIB,THIRDPARTY,DJANGO,FIRSTPARTY,LOCALFOLDER"
-skip_glob = ["**/migrations/*", "**/settings/*"]
+skip_glob = ["**/migrations/*"]
 
 
 [tool.pytest.ini_options]

@@ -8,12 +8,10 @@ from core.models import CommonDataAbstractModel
 class Attempt(CommonDataAbstractModel):
     """Модель сессии из вопросов"""
 
-    user_id = models.ForeignKey(
-        AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        verbose_name=_("Пользователь"),
+    user = models.ForeignKey(
+        AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Пользователь")
     )
-    question_id = models.ForeignKey(
+    question = models.ForeignKey(
         "questions.Question", on_delete=models.SET_NULL, null=True, verbose_name=_("Вопросы")
     )
     start_date = models.DateTimeField(auto_now_add=True, verbose_name=_("Время начала"))
