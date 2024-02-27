@@ -50,12 +50,12 @@ INSTALLED_APPS = [
     "django_extensions",
 
     # Project apps
-    "accounts.apps.accountsConfig",
-    "articles.apps.articlesConfig",
-    "attempts.apps.attemptsConfig",
-    "comments.apps.commentsConfig",
-    "companies.apps.companiesConfig",
-    "questions.apps.questionsConfig",
+    "accounts.apps.AccountsConfig",
+    "articles.apps.ArticlesConfig",
+    "attempts.apps.AttemptsConfig",
+    "comments.apps.CommentsConfig",
+    "companies.apps.CompaniesConfig",
+    "questions.apps.QuestionsConfig",
 ]
 
 MIDDLEWARE = [
