@@ -1,13 +1,15 @@
+from django_extensions.db.fields import AutoSlugField
+from django_extensions.db.models import TimeStampedModel
+
 from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from config.settings import AUTH_USER_MODEL
-from core.models import CommonDataAbstractModel
-from core.slug import AutoSlugField
+from core.models import SlugModel
 
 
-class Question(CommonDataAbstractModel):
+class Question(SlugModel, TimeStampedModel, models.Model):
     """Модель вопроса"""
 
     class ModerationStatus(models.TextChoices):
@@ -46,7 +48,7 @@ class Question(CommonDataAbstractModel):
     status = models.CharField(
         choices=ModerationStatus, default=ModerationStatus.MODERATION, verbose_name=_("Статус")
     )
-    slug = AutoSlugField(populate_from="title", unique=True, verbose_name=_("Ссылка"))
+    slug = AutoSlugField(populate_from="title", verbose_name=_("Ссылка"))
 
     class Meta:
         verbose_name = _("Вопрос")
@@ -54,7 +56,7 @@ class Question(CommonDataAbstractModel):
         indexes = (GinIndex(fields=("text",)),)
 
 
-class QuestionStat(CommonDataAbstractModel):
+class QuestionStat(TimeStampedModel, models.Model):
     """Статистика по вопросу"""
 
     question = models.OneToOneField("Question", on_delete=models.CASCADE, verbose_name=_("Вопрос"))
@@ -69,15 +71,15 @@ class QuestionStat(CommonDataAbstractModel):
         verbose_name_plural = _("Статистика по вопросу")
 
 
-class Category(CommonDataAbstractModel):
+class Category(SlugModel, TimeStampedModel, models.Model):
     """Модель с категориями/тегами вопроса"""
 
     name = models.CharField(max_length=255, unique=True, verbose_name=_("Категория"))
-    slug = AutoSlugField(populate_from="name", unique=True, verbose_name=_("Ссылка"))
-
-    def questions(self):
-        return self.question_set.all()
+    slug = AutoSlugField(populate_from="name", verbose_name=_("Ссылка"))
 
     class Meta:
         verbose_name = _("Категории")
         verbose_name_plural = _("Категории")
+
+    def questions(self):
+        return self.question_set.all()

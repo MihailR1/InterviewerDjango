@@ -1,11 +1,12 @@
+from django_extensions.db.models import TimeStampedModel
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from config.settings import AUTH_USER_MODEL
-from core.models import CommonDataAbstractModel
 
 
-class Attempt(CommonDataAbstractModel):
+class Attempt(TimeStampedModel, models.Model):
     """Модель сессии из вопросов"""
 
     user = models.ForeignKey(
@@ -26,7 +27,7 @@ class Attempt(CommonDataAbstractModel):
         verbose_name_plural = _("Сессии интервью")
 
 
-class Answer(CommonDataAbstractModel):
+class Answer(TimeStampedModel, models.Model):
     """Модель, как пользовать оценил свой ответ на вопрос"""
 
     class AnswerChoices(models.TextChoices):

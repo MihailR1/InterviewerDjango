@@ -1,16 +1,20 @@
+from django_extensions.db.models import TimeStampedModel
+
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.indexes import HashIndex
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from accounts.manager import CustomUserManager
 from config.settings import AUTH_USER_MODEL
-from core.models import CommonDataAbstractModel
 
 
-class User(AbstractUser):
+class User(TimeStampedModel, AbstractUser):
     """Модель пользователя"""
 
     email = models.EmailField("email address", unique=True)
+
+    objects = CustomUserManager()
 
     class Meta:
         indexes = (HashIndex(fields=("email",)),)
@@ -21,7 +25,7 @@ class User(AbstractUser):
         return f"{self.email}"
 
 
-class Profile(CommonDataAbstractModel):
+class Profile(TimeStampedModel, models.Model):
     """Модель с настройками аккаунта пользователя"""
 
     user = models.OneToOneField(
@@ -39,7 +43,7 @@ class Profile(CommonDataAbstractModel):
         verbose_name_plural = _("Настройки пользователя")
 
 
-class Favorite(CommonDataAbstractModel):
+class Favorite(TimeStampedModel, models.Model):
     """Модель для добавления избранных вопросов"""
 
     user = models.ForeignKey(
@@ -54,7 +58,7 @@ class Favorite(CommonDataAbstractModel):
         verbose_name_plural = _("Избранные")
 
 
-class Review(CommonDataAbstractModel):
+class Review(TimeStampedModel, models.Model):
     """Модель отзыва пользователем о нашем сервисе"""
 
     user = models.OneToOneField(
