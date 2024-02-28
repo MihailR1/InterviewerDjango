@@ -21,7 +21,7 @@ class User(TimeStampedModel, AbstractUser):
         verbose_name = _("Пользователь")
         verbose_name_plural = _("Пользователи")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.email}"
 
 
@@ -50,7 +50,11 @@ class Favorite(TimeStampedModel, models.Model):
         AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Пользователь")
     )
     question = models.ForeignKey(
-        "questions.Question", on_delete=models.CASCADE, verbose_name=_("Вопросы")
+        "questions.Question",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        verbose_name=_("Вопросы"),
     )
 
     class Meta:

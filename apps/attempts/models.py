@@ -13,12 +13,16 @@ class Attempt(TimeStampedModel, models.Model):
         AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Пользователь")
     )
     question = models.ForeignKey(
-        "questions.Question", on_delete=models.SET_NULL, null=True, verbose_name=_("Вопросы")
+        "questions.Question",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name=_("Вопросы"),
     )
     start_date = models.DateTimeField(auto_now_add=True, verbose_name=_("Время начала"))
     end_date = models.DateTimeField(auto_now=True, verbose_name=_("Время завершения"))
     answer = models.OneToOneField(
-        "Answer", on_delete=models.CASCADE, verbose_name=_("Оценил ответ")
+        "Answer", null=True, blank=True, on_delete=models.CASCADE, verbose_name=_("Оценил ответ")
     )
     session_id = models.UUIDField(verbose_name=_("ID-Сессии"))
 

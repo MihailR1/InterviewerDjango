@@ -1,8 +1,8 @@
 from django_extensions.db.fields import AutoSlugField
 from django_extensions.db.models import TimeStampedModel
 
-from django.contrib.postgres.indexes import GinIndex
 from django.db import models
+from django.db.models import QuerySet
 from django.utils.translation import gettext_lazy as _
 
 from config.settings import AUTH_USER_MODEL
@@ -29,18 +29,28 @@ class Question(SlugModel, TimeStampedModel, models.Model):
     user = models.ForeignKey(
         AUTH_USER_MODEL, on_delete=models.SET_DEFAULT, default=1, verbose_name=_("Пользователь")
     )
-    categories = models.ManyToManyField("Category", verbose_name=_("Категорий"))
-    companies = models.ManyToManyField("companies.Company", verbose_name=_("В компаниях"))
+    categories = models.ManyToManyField("Category", blank=True, verbose_name=_("Категорий"))
+    companies = models.ManyToManyField(
+        "companies.Company", blank=True, verbose_name=_("В компаниях")
+    )
     article = models.OneToOneField(
-        "articles.Article", on_delete=models.CASCADE, verbose_name=_("Полный ответ")
+        "articles.Article",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name=_("Полный ответ"),
     )
     comments = models.ForeignKey(
-        "comments.Comment", on_delete=models.CASCADE, verbose_name=_("Комментарии")
+        "comments.Comment",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name=_("Комментарии"),
     )
     title = models.CharField(
         max_length=255, unique=True, db_index=True, verbose_name=_("Заголовок")
     )
-    text = models.TextField(unique=True, verbose_name=_("Текст вопроса"))
+    text = models.TextField(unique=True, db_index=True, verbose_name=_("Текст вопроса"))
     answer = models.TextField(verbose_name=_("Ответ"))
     level = models.CharField(
         choices=LevelChoices, default=LevelChoices.JUNIOR, verbose_name=_("Для уровня")
@@ -53,7 +63,6 @@ class Question(SlugModel, TimeStampedModel, models.Model):
     class Meta:
         verbose_name = _("Вопрос")
         verbose_name_plural = _("Вопросы")
-        indexes = (GinIndex(fields=("text",)),)
 
 
 class QuestionStat(TimeStampedModel, models.Model):
@@ -63,7 +72,11 @@ class QuestionStat(TimeStampedModel, models.Model):
     views = models.PositiveSmallIntegerField(verbose_name=_("Просмотров"))
     got_at_interview = models.PositiveSmallIntegerField(verbose_name=_("Встречался на интервью"))
     answers = models.ForeignKey(
-        "attempts.Answer", on_delete=models.SET_NULL, null=True, verbose_name=_("Ответы")
+        "attempts.Answer",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_("Ответы"),
     )
 
     class Meta:
@@ -81,5 +94,5 @@ class Category(SlugModel, TimeStampedModel, models.Model):
         verbose_name = _("Категории")
         verbose_name_plural = _("Категории")
 
-    def questions(self):
+    def questions(self) -> QuerySet:
         return self.question_set.all()

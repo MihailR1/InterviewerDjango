@@ -2,6 +2,7 @@ from django_extensions.db.fields import AutoSlugField
 from django_extensions.db.models import TimeStampedModel
 
 from django.db import models
+from django.db.models import QuerySet
 from django.utils.translation import gettext_lazy as _
 
 from core.models import SlugModel
@@ -17,5 +18,5 @@ class Company(SlugModel, TimeStampedModel, models.Model):
         verbose_name = _("Компания")
         verbose_name_plural = _("Компании")
 
-    def questions(self):
+    def questions(self) -> QuerySet:
         return self.question_set.all()
