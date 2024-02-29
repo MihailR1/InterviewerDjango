@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from attempts.models import Attempt
+
+admin.site.register(Attempt)
