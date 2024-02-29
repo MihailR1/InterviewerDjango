@@ -6,6 +6,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from accounts.manager import CustomUserManager
+from config.config import settings
 from config.settings import AUTH_USER_MODEL
 
 
@@ -22,7 +23,7 @@ class User(TimeStampedModel, AbstractUser):
         verbose_name_plural = _("Пользователи")
 
     def __str__(self) -> str:
-        return f"{self.email}"
+        return self.email
 
 
 class Profile(TimeStampedModel, models.Model):
@@ -74,3 +75,6 @@ class Review(TimeStampedModel, models.Model):
     class Meta:
         verbose_name = _("Отзыв")
         verbose_name_plural = _("Отзывы")
+
+    def __str__(self) -> str:
+        return self.text[: settings.admin_preview_text]

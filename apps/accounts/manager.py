@@ -1,7 +1,5 @@
 from django.contrib.auth.base_user import BaseUserManager
 
-from accounts.models import User
-
 
 class CustomUserManager(BaseUserManager):
     """
@@ -9,7 +7,7 @@ class CustomUserManager(BaseUserManager):
     for authentication instead of username.
     """
 
-    def create_user(self, email: str, password: str, **extra_fields) -> User:
+    def create_user(self, email: str, password: str, **extra_fields):  # type: ignore
         """
         Create and save a User with the given email and password.
         """
@@ -23,7 +21,7 @@ class CustomUserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, email: str, password: str, **extra_fields) -> User:
+    def create_superuser(self, email: str, password: str, **extra_fields):  # type: ignore
         """
         Create and save superuser with the given email and password.
         """

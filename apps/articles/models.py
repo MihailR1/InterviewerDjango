@@ -4,6 +4,7 @@ from django_extensions.db.models import TimeStampedModel
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from config.config import settings
 from config.settings import AUTH_USER_MODEL
 from core.models import SlugModel
 
@@ -20,3 +21,6 @@ class Article(SlugModel, TimeStampedModel, models.Model):
     class Meta:
         verbose_name = _("Статья")
         verbose_name_plural = _("Статьи")
+
+    def __str__(self) -> str:
+        return self.text[: settings.admin_preview_text]

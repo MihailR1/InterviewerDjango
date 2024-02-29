@@ -30,6 +30,9 @@ class Attempt(TimeStampedModel, models.Model):
         verbose_name = _("Сессия интервью")
         verbose_name_plural = _("Сессии интервью")
 
+    def __str__(self) -> str:
+        return f"Session ID: {self.session_id}"
+
 
 class Answer(TimeStampedModel, models.Model):
     """Модель, как пользовать оценил свой ответ на вопрос"""
@@ -48,3 +51,6 @@ class Answer(TimeStampedModel, models.Model):
     class Meta:
         verbose_name = _("Ответ")
         verbose_name_plural = _("Ответы")
+
+    def __str__(self) -> str:
+        return self.answer

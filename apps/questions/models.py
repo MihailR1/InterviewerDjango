@@ -64,6 +64,9 @@ class Question(SlugModel, TimeStampedModel, models.Model):
         verbose_name = _("Вопрос")
         verbose_name_plural = _("Вопросы")
 
+    def __str__(self) -> str:
+        return self.title
+
 
 class QuestionStat(TimeStampedModel, models.Model):
     """Статистика по вопросу"""
@@ -87,7 +90,7 @@ class QuestionStat(TimeStampedModel, models.Model):
 class Category(SlugModel, TimeStampedModel, models.Model):
     """Модель с категориями/тегами вопроса"""
 
-    name = models.CharField(max_length=255, unique=True, verbose_name=_("Категория"))
+    name = models.CharField(max_length=255, unique=True, verbose_name=_("Имя категории"))
     slug = AutoSlugField(populate_from="name", verbose_name=_("Ссылка"))
 
     class Meta:
@@ -96,3 +99,6 @@ class Category(SlugModel, TimeStampedModel, models.Model):
 
     def questions(self) -> QuerySet:
         return self.question_set.all()
+
+    def __str__(self) -> str:
+        return self.name

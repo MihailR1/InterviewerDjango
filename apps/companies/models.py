@@ -20,3 +20,6 @@ class Company(SlugModel, TimeStampedModel, models.Model):
 
     def questions(self) -> QuerySet:
         return self.question_set.all()
+
+    def __str__(self) -> str:
+        return self.name
