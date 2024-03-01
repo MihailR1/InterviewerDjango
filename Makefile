@@ -18,6 +18,8 @@ black:
 	black apps config
 check:
 	make -j3 style types tests
+format:
+	make -j3 isort black
 
 makemigrations:
 	python manage.py makemigrations

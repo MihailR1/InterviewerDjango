@@ -6,18 +6,12 @@ from django.db.models import QuerySet
 from django.utils.translation import gettext_lazy as _
 
 from config.settings import AUTH_USER_MODEL
+from core.enums import ModerationStatus
 from core.models import SlugModel
 
 
 class Question(SlugModel, TimeStampedModel, models.Model):
     """Модель вопроса"""
-
-    class ModerationStatus(models.TextChoices):
-        """Enums со статусом модерации"""
-
-        MODERATION = ("MODERATION", _("Модерация"))
-        PUBLIC = ("PUBLIC", _("Опубликован"))
-        DECLINED = ("DECLINED", _("Отклонен"))
 
     class LevelChoices(models.TextChoices):
         """Enums с уровнем вопроса Junior/middle/senior"""

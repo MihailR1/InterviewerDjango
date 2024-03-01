@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from accounts.manager import CustomUserManager
 from config.config import settings
 from config.settings import AUTH_USER_MODEL
+from core.enums import ModerationStatus
 
 
 class User(TimeStampedModel, AbstractUser):
@@ -71,6 +72,9 @@ class Review(TimeStampedModel, models.Model):
     )
     text = models.TextField(verbose_name=_("Текст отзыва"))
     number_of_interview_sessions = models.PositiveSmallIntegerField(verbose_name=_("Кол-во сессий"))
+    status = models.CharField(
+        choices=ModerationStatus, default=ModerationStatus.MODERATION, verbose_name=_("Статус")
+    )
 
     class Meta:
         verbose_name = _("Отзыв")

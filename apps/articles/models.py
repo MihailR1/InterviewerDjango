@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from config.config import settings
 from config.settings import AUTH_USER_MODEL
+from core.enums import ModerationStatus
 from core.models import SlugModel
 
 
@@ -17,6 +18,9 @@ class Article(SlugModel, TimeStampedModel, models.Model):
     )
     text = models.TextField(verbose_name=_("Полный текст ответа"))
     slug = AutoSlugField(populate_from="text", verbose_name=_("Ссылка"))
+    status = models.CharField(
+        choices=ModerationStatus, default=ModerationStatus.MODERATION, verbose_name=_("Статус")
+    )
 
     class Meta:
         verbose_name = _("Статья")

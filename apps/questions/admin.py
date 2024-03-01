@@ -3,13 +3,14 @@ from django.db.models import QuerySet
 from django.http import HttpRequest
 
 from config.config import settings
+from core.enums import ModerationStatus
 from questions.models import Category, Question
 
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ("title", "short_text", "level", "status", "created")
-    list_display_links = ("title",)
+    list_display_links = ("title", "short_text")
     list_editable = ("status",)
     list_per_page = settings.admin_elements_per_page
 
@@ -29,12 +30,12 @@ class QuestionAdmin(admin.ModelAdmin):
 
     @admin.action(description="Опубликовать выбранные вопросы")
     def set_public(self, request: HttpRequest, queryset: QuerySet) -> None:
-        count: int = queryset.update(status=Question.ModerationStatus.PUBLIC)
+        count: int = queryset.update(status=ModerationStatus.PUBLIC)
         self.message_user(request, f"Изменено {count} записей.")
 
     @admin.action(description="Отклонить публикацию выбранных вопросов")
     def set_declined(self, request: HttpRequest, queryset: QuerySet) -> None:
-        count: int = queryset.update(status=Question.ModerationStatus.DECLINED)
+        count: int = queryset.update(status=ModerationStatus.DECLINED)
         self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
 
 

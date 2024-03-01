@@ -23,4 +23,16 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("user", "short_text", "status", "created")
+    list_display_links = ("user", "short_text")
+    list_editable = ("status",)
+    search_fields = ["text", "user"]
+    field = ["user", "created", "status", "number_of_interview_sessions", "text"]
+    ordering = ["-created"]
+    list_filter = ["status", "created"]
+    list_per_page = settings.admin_elements_per_page
+    save_on_top = True
+
+    @admin.display(description="Текст отзыва", ordering="text")
+    def short_text(self, review: Review) -> str:
+        return f"{review.text[:settings.admin_preview_text]}"
