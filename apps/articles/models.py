@@ -16,11 +16,14 @@ class Article(SlugModel, TimeStampedModel, models.Model):
     user = models.ForeignKey(
         AUTH_USER_MODEL, models.SET_DEFAULT, default=1, verbose_name=_("Пользователь")
     )
+    title = models.CharField(
+        max_length=255, unique=True, db_index=True, verbose_name=_("Заголовок")
+    )
     text = models.TextField(verbose_name=_("Полный текст ответа"))
-    slug = AutoSlugField(populate_from="text", verbose_name=_("Ссылка"))
     status = models.CharField(
         choices=ModerationStatus, default=ModerationStatus.MODERATION, verbose_name=_("Статус")
     )
+    slug = AutoSlugField(populate_from="title", verbose_name=_("Ссылка"))
 
     class Meta:
         verbose_name = _("Статья")
