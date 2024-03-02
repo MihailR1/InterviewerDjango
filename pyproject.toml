@@ -3,7 +3,7 @@ ignore_missing_imports = true
 disallow_incomplete_defs = true
 disallow_untyped_calls = false
 disallow_untyped_defs = true
-exclude = ['env', '.env', 'venv', '.venv', "tests", "migrations"]
+exclude = ['env', '.env', 'venv', '.venv', "tests", "migrations", "conftest.py"]
 
 
 [tool.flake8]
