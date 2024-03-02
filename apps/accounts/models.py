@@ -1,4 +1,3 @@
-from ckeditor.fields import RichTextField
 from django_extensions.db.models import TimeStampedModel
 
 from django.contrib.auth.models import AbstractUser
@@ -71,7 +70,7 @@ class Review(TimeStampedModel, models.Model):
     user = models.OneToOneField(
         AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Пользователь")
     )
-    text = RichTextField(verbose_name=_("Текст отзыва"))
+    text = models.TextField(verbose_name=_("Текст отзыва"))
     number_of_interview_sessions = models.PositiveSmallIntegerField(verbose_name=_("Кол-во сессий"))
     status = models.CharField(
         choices=ModerationStatus, default=ModerationStatus.MODERATION, verbose_name=_("Статус")
