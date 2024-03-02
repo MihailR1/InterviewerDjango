@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 from django_extensions.db.models import TimeStampedModel
 
 from django.db import models
@@ -13,7 +14,7 @@ class Comment(TimeStampedModel, models.Model):
     user = models.OneToOneField(
         AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Пользователь")
     )
-    text = models.TextField(verbose_name=_("Текст комментария"))
+    text = RichTextField(verbose_name=_("Текст комментария"))
 
     class Meta:
         verbose_name = _("Комментарий")

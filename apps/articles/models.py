@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 from django_extensions.db.fields import AutoSlugField
 from django_extensions.db.models import TimeStampedModel
 
@@ -19,7 +20,7 @@ class Article(SlugModel, TimeStampedModel, models.Model):
     title = models.CharField(
         max_length=255, unique=True, db_index=True, verbose_name=_("Заголовок")
     )
-    text = models.TextField(verbose_name=_("Полный текст ответа"))
+    text = RichTextField(verbose_name=_("Полный текст ответа"))
     status = models.CharField(
         choices=ModerationStatus, default=ModerationStatus.MODERATION, verbose_name=_("Статус")
     )
