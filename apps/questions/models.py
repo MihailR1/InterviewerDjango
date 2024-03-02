@@ -85,7 +85,7 @@ class Category(SlugModel, TimeStampedModel, models.Model):
     """Модель с категориями/тегами вопроса"""
 
     name = models.CharField(max_length=255, unique=True, verbose_name=_("Имя категории"))
-    slug = AutoSlugField(populate_from="name", verbose_name=_("Ссылка"))
+    slug = AutoSlugField(populate_from="name", editable=True, verbose_name=_("Ссылка"))
 
     class Meta:
         verbose_name = _("Категории")

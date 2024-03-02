@@ -39,12 +39,13 @@ class QuestionAdmin(AdminMixin, admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name", "created")
+    list_display = ("name", "slug", "created")
     list_display_links = ("name",)
+    list_editable = ("slug",)
     list_filter = ["name", "created"]
     list_per_page = settings.admin_elements_per_page
     fields = ["name", "slug"]
-    readonly_fields = ["slug"]
+    prepopulated_fields = {"slug": ("name",)}
     search_fields = ["name"]
     ordering = ["-created"]
     save_on_top = True

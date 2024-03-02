@@ -15,7 +15,7 @@ tests:
 isort:
 	isort apps config
 black:
-	black apps config
+	black apps config  --skip-magic-trailing-comma
 check:
 	make -j3 style types tests
 format:

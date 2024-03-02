@@ -12,7 +12,7 @@ class Company(SlugModel, TimeStampedModel, models.Model):
     """Модель компании"""
 
     name = models.CharField(max_length=255, unique=True, db_index=True, verbose_name=_("Компания"))
-    slug = AutoSlugField(populate_from="name", verbose_name=_("Ссылка"))
+    slug = AutoSlugField(populate_from="name", editable=True, verbose_name=_("Ссылка"))
 
     class Meta:
         verbose_name = _("Компания")
