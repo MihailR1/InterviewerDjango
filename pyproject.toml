@@ -28,7 +28,7 @@ min-coverage-percents = 60
 [tool.black]
 line-length = 100
 target-version = ['py311']
-extend-exclude = 'migrations'
+extend-exclude = "migrations"
 
 
 [tool.isort]
