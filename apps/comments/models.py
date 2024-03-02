@@ -20,4 +20,4 @@ class Comment(TimeStampedModel, models.Model):
         verbose_name_plural = _("Комментарии")
 
     def __str__(self) -> str:
-        return self.text[: settings.admin_preview_text]
+        return self.text[: settings.admin_preview_text_limit]

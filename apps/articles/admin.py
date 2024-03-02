@@ -2,10 +2,11 @@ from django.contrib import admin
 
 from articles.models import Article
 from config.config import settings
+from core.mixins import AdminMixin
 
 
 @admin.register(Article)
-class ArticleAdmin(admin.ModelAdmin):
+class ArticleAdmin(AdminMixin, admin.ModelAdmin):
     list_display = ("user", "short_text", "status", "created")
     list_display_links = ("user", "short_text")
     list_editable = ("status",)
@@ -18,5 +19,5 @@ class ArticleAdmin(admin.ModelAdmin):
     save_on_top = True
 
     @admin.display(description="Текст статьи", ordering="text")
-    def short_text(self, article: Article) -> str:
-        return f"{article.text[:settings.admin_preview_text]}"
+    def short_text(self, model: Article, method_name: str = "text") -> str:
+        return super().short_text(model, method_name)

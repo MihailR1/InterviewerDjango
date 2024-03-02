@@ -1,14 +1,14 @@
-from django.contrib import admin, messages
+from django.contrib import admin
 from django.db.models import QuerySet
 from django.http import HttpRequest
 
 from config.config import settings
-from core.enums import ModerationStatus
+from core.mixins import AdminMixin
 from questions.models import Category, Question
 
 
 @admin.register(Question)
-class QuestionAdmin(admin.ModelAdmin):
+class QuestionAdmin(AdminMixin, admin.ModelAdmin):
     list_display = ("title", "short_text", "level", "status", "created")
     list_display_links = ("title", "short_text")
     list_editable = ("status",)
@@ -25,18 +25,16 @@ class QuestionAdmin(admin.ModelAdmin):
     save_on_top = True
 
     @admin.display(description="Текст вопроса", ordering="text")
-    def short_text(self, question: Question) -> str:
-        return f"{question.text[:settings.admin_preview_text]}"
+    def short_text(self, model: Question, method_name: str = "text") -> str:
+        return super().short_text(model, method_name)
 
     @admin.action(description="Опубликовать выбранные вопросы")
     def set_public(self, request: HttpRequest, queryset: QuerySet) -> None:
-        count: int = queryset.update(status=ModerationStatus.PUBLIC)
-        self.message_user(request, f"Изменено {count} записей.")
+        super().set_public(request, queryset)
 
     @admin.action(description="Отклонить публикацию выбранных вопросов")
     def set_declined(self, request: HttpRequest, queryset: QuerySet) -> None:
-        count: int = queryset.update(status=ModerationStatus.DECLINED)
-        self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
+        super().set_declined(request, queryset)
 
 
 @admin.register(Category)

@@ -2,10 +2,11 @@ from django.contrib import admin
 
 from comments.models import Comment
 from config.config import settings
+from core.mixins import AdminMixin
 
 
 @admin.register(Comment)
-class CommentAdmin(admin.ModelAdmin):
+class CommentAdmin(AdminMixin, admin.ModelAdmin):
     list_display = ("user", "short_text", "created")
     list_display_links = ("user", "short_text")
     search_fields = ["text", "user"]
@@ -15,5 +16,5 @@ class CommentAdmin(admin.ModelAdmin):
     save_on_top = True
 
     @admin.display(description="Текст комментария", ordering="text")
-    def short_text(self, comment: Comment) -> str:
-        return f"{comment.text[:settings.admin_preview_text]}"
+    def short_text(self, model: Comment, method_name: str = "text") -> str:
+        return super().short_text(model, method_name)
