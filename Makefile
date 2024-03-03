@@ -16,10 +16,10 @@ isort:
 	isort apps config
 black:
 	black apps config  --skip-magic-trailing-comma
+pre-check:
+	pre-commit run --all-files
 check:
 	make -j3 style types tests
-pre-check:
-	make pre-commit run --all-files
 format:
 	make -j3 isort black
 
