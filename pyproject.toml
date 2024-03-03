@@ -3,7 +3,7 @@ ignore_missing_imports = true
 disallow_incomplete_defs = true
 disallow_untyped_calls = false
 disallow_untyped_defs = true
-exclude = ['env', '.env', 'venv', '.venv', "tests", "migrations", "manage.py"]
+exclude = ['env', '.env', 'venv', '.venv', "tests", "migrations", "conftest.py"]
 
 
 [tool.flake8]
@@ -28,11 +28,7 @@ min-coverage-percents = 60
 [tool.black]
 line-length = 100
 target-version = ['py311']
-extend-exclude = '''
-(
-  migrations
-)
-'''
+extend-exclude = "migrations"
 
 
 [tool.isort]

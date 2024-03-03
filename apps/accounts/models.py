@@ -1,4 +1,3 @@
-from ckeditor.fields import RichTextField
 from django_extensions.db.models import TimeStampedModel
 
 from django.contrib.auth.models import AbstractUser
@@ -82,4 +81,4 @@ class Review(TimeStampedModel, models.Model):
         verbose_name_plural = _("Отзывы")
 
     def __str__(self) -> str:
-        return self.text[: settings.admin_preview_text]
+        return self.text[: settings.admin_preview_text_limit]

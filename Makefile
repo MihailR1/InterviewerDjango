@@ -15,13 +15,15 @@ tests:
 isort:
 	isort apps config
 black:
-	black apps config
+	black apps config  --skip-magic-trailing-comma
 check:
 	make -j3 style types tests
+pre-check:
+	make pre-commit run --all-files
 format:
 	make -j3 isort black
 
-makemigrations:
+migrations:
 	python manage.py makemigrations
 migrate:
 	python manage.py migrate

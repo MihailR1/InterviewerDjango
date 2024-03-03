@@ -20,7 +20,7 @@ class Settings:
     ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
     admin_elements_per_page = 50
-    admin_preview_text = 150
+    admin_preview_text_limit = 150
 
 
 settings = Settings()

@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from accounts.models import Review, User
 from config.config import settings
+from core.mixins import AdminMixin
 
 
 @admin.register(User)
@@ -22,7 +23,7 @@ class UserAdmin(admin.ModelAdmin):
 
 
 @admin.register(Review)
-class ReviewAdmin(admin.ModelAdmin):
+class ReviewAdmin(AdminMixin, admin.ModelAdmin):
     list_display = ("user", "short_text", "status", "created")
     list_display_links = ("user", "short_text")
     list_editable = ("status",)
@@ -34,5 +35,5 @@ class ReviewAdmin(admin.ModelAdmin):
     save_on_top = True
 
     @admin.display(description="Текст отзыва", ordering="text")
-    def short_text(self, review: Review) -> str:
-        return f"{review.text[:settings.admin_preview_text]}"
+    def short_text(self, model: Review, method_name: str = "text") -> str:
+        return super().short_text(model, method_name)

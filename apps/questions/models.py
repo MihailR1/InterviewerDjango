@@ -1,4 +1,3 @@
-from ckeditor.fields import RichTextField
 from django_extensions.db.fields import AutoSlugField
 from django_extensions.db.models import TimeStampedModel
 
@@ -45,8 +44,8 @@ class Question(SlugModel, TimeStampedModel, models.Model):
     title = models.CharField(
         max_length=255, unique=True, db_index=True, verbose_name=_("Заголовок")
     )
-    text = RichTextField(unique=True, db_index=True, verbose_name=_("Текст вопроса"))
-    answer = RichTextField(verbose_name=_("Ответ"))
+    text = models.TextField(unique=True, db_index=True, verbose_name=_("Текст вопроса"))
+    answer = models.TextField(verbose_name=_("Ответ"))
     level = models.CharField(
         choices=LevelChoices, default=LevelChoices.JUNIOR, verbose_name=_("Для уровня")
     )
@@ -86,7 +85,7 @@ class Category(SlugModel, TimeStampedModel, models.Model):
     """Модель с категориями/тегами вопроса"""
 
     name = models.CharField(max_length=255, unique=True, verbose_name=_("Имя категории"))
-    slug = AutoSlugField(populate_from="name", verbose_name=_("Ссылка"))
+    slug = AutoSlugField(populate_from="name", editable=True, verbose_name=_("Ссылка"))
 
     class Meta:
         verbose_name = _("Категории")
