@@ -11,25 +11,20 @@ from core.enums import ModerationStatus
 
 
 class AdminMixin:
-    ModelType = TypeVar("ModelType", bound=models.Model)
+    _ModelType = TypeVar("_ModelType", bound=models.Model)
 
     def short_text(
         self,
-        model: ModelType,
+        model: _ModelType,
         method_name: str = "text",
         text_limit: int | None = settings.admin_preview_text_limit,
     ) -> str:
         """
         Удаляет html теги из текста и возвращает урезанный текст по количеству символов
         """
-        text_original = getattr(model, method_name, None)
-
-        if not text_original:
-            raise AttributeError(
-                f"Атрибут {method_name} не найден в модели {model.__class__.__name__}"
-            )
-
+        text_original = getattr(model, method_name)
         text_without_html_tags: str = strip_tags(text_original)
+
         return text_without_html_tags[:text_limit] if text_limit else text_without_html_tags
 
     @staticmethod
