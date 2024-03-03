@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
     # Third party apps
     "django_extensions",
+    "ckeditor",
 
     # Project apps
     "accounts.apps.AccountsConfig",
@@ -84,9 +85,9 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-            ]
+            ],
         },
-    }
+    },
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
@@ -136,6 +137,7 @@ USE_TZ = True
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "assets"),)
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, "static"))
 STATIC_URL = "static/"
+CKEDITOR_UPLOAD_PATH = os.path.abspath(os.path.join(BASE_DIR, 'media'))
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
