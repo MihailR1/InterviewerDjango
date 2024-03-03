@@ -19,6 +19,9 @@ class Settings:
 
     ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
+    SENTRY_KEY = env.str("SENTRY_TOKEN")
+    SENTRY_PROJECT_NAME = env.str("SENTRY_PROJECT_NAME")
+
     admin_elements_per_page = 50
     admin_preview_text_limit = 150
 

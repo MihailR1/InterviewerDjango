@@ -14,6 +14,9 @@ import os
 import sys
 from pathlib import Path
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 from config.config import settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,8 +48,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     # Third party apps
     "django_extensions",
+
     # Project apps
     "accounts.apps.AccountsConfig",
     "articles.apps.ArticlesConfig",
@@ -79,9 +84,9 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-            ],
+            ]
         },
-    },
+    }
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
@@ -106,18 +111,10 @@ DATABASES = {
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
 
@@ -147,3 +144,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ORIGIN_ALLOW_ALL = True
 AUTH_USER_MODEL = "accounts.User"
+
+if settings.MODE == "PROD":
+    sentry_sdk.init(
+        dsn=f"https://{settings.SENTRY_KEY}@sentry.io/{settings.SENTRY_PROJECT_NAME}",
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
+        send_default_pii=True,
+    )
