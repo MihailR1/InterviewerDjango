@@ -4,6 +4,16 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Django stuff:
+*.log
+*.pyc
+*.mo
+*.pot
+media
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
 # C extensions
 *.so
 
@@ -51,16 +61,6 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
 
 # Flask stuff:
 instance/
@@ -123,6 +123,7 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.env-prod
 env/
 venv/
 ENV/
@@ -159,4 +160,3 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
-

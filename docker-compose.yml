@@ -1,0 +1,39 @@
+version: '3.3'
+
+services:
+    django:
+        build: .
+        env_file:
+            - .env-prod
+        ports:
+            - "8000:8000"
+        restart: always
+        volumes:
+            - .:/new_app
+            - static_volume:/new_app/static
+        command: sh -c "python manage.py migrate &&
+                        python manage.py collectstatic --no-input &&
+                        python manage.py runserver 0.0.0.0:8000"
+        depends_on:
+            db:
+                condition: service_healthy
+
+    db:
+        image: postgres:16.1
+        restart: always
+        ports:
+            - "5432:5432"
+        env_file:
+            - .env-prod
+        volumes:
+            - database-data:/var/lib/postgresql/data
+            - ./postgresql.conf:/etc/postgresql.conf:ro
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+
+volumes:
+    static_volume:
+    database-data:

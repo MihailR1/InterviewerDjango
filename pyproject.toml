@@ -1,0 +1,54 @@
+[tool.mypy]
+ignore_missing_imports = true
+disallow_incomplete_defs = true
+disallow_untyped_calls = false
+disallow_untyped_defs = true
+exclude = ['env', '.env', 'venv', '.venv', "tests", "migrations", "conftest.py"]
+
+
+[tool.flake8]
+ignore = ["E203", "E266", "E501", "W503", "G200", "G201", "P103"]
+max-line-length = 100
+max-complexity = 8
+max-annotations-complexity = 4
+exclude = [
+    ".git", ".eggs", "__pycache__", ".mypy_cache", ".env", "migrations", "env",
+    "venv", "htmlcov", "tests"
+]
+per-file-ignores = [
+    "__init__.py: F401, ABS101, F403",
+    "*/tests/*: TAE001, FNE006, CFQ002",
+    "conftest.py: TAE001, FNE008, FNE006",
+    "**/conftest.py: TAE001, FNE008, FNE006"
+]
+extend-ignore = ["E203"]
+min-coverage-percents = 60
+
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+extend-exclude = "migrations"
+
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 100
+default_section = "THIRDPARTY"
+known_first_party = "core,accounts,articles,attempts,comments,companies,questions"
+known_django = "django"
+sections = "FUTURE,STDLIB,THIRDPARTY,DJANGO,FIRSTPARTY,LOCALFOLDER"
+skip_glob = ["**/migrations/*"]
+
+
+[tool.pytest.ini_options]
+disable_test_id_escaping_and_forfeit_all_rights_to_community_support = true
+addopts = "-s -v --disable-pytest-warnings --cov=apps --cov-report=html --cov-report term --cov-branch --cov-fail-under=60"
+pythonpath = ". apps"
+asyncio_mode = "auto"
+python_files = ["*_test.py", "*_tests.py", "test_*.py"]
